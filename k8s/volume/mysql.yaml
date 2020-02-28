@@ -1,0 +1,34 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  namespace: sample
+  name: myapp-mysql-pv
+  labels:
+    app: myapp
+    component: mysql-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: standard
+  hostPath:
+    path: "/tmp/mysql"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: sample
+  name: myapp-mysql-pvc
+  labels:
+    app: myapp
+    component: mysql-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard
+  
+  

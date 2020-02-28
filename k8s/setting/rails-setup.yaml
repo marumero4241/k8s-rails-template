@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: sample
+  name: myapp-setup
+spec:
+  template:
+    metadata: 
+      name: myapp-setup
+    spec:
+      containers:
+      - name: myapp-setup
+        image: myapp:0.0.1
+        imagePullPolicy: Never
+        command: ["/bin/sh"]
+        args: ["-c", "bundle exec rake db:create && bundle exec rake db:migrate"]
+        envFrom:
+        - configMapRef:
+            name: myapp-rails-env
+        - secretRef:
+            name: myapp-rails-env
+      restartPolicy: Never

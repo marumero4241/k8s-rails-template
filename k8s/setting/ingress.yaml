@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: sample
+  name: myapp-rails-ing
+spec:
+  rules:
+  - host: sample-rails.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: myapp-rails 
+          servicePort: 3000

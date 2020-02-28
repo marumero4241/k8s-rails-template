@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service 
+metadata:
+  namespace: sample
+  name: myapp-rails
+  labels:
+    app: myapp
+    component: rails
+spec:
+  selector:
+    app: myapp
+    component: rails
+  type: ClusterIP
+  ports:
+  - port: 3000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  namespace: sample
+  name: myapp-rails
+  labels:
+    app: myapp
+    component: rails
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+      component: rails
+  template:
+    metadata:
+      labels:
+        app: myapp
+        component: rails
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: rails
+          image: myapp:0.0.1
+          imagePullPolicy: Never
+          command: ["bundle", "exec", "rails", "s"]
+          ports:
+          - containerPort: 3000
+          envFrom:
+          - configMapRef:
+              name: myapp-rails-env
+          - secretRef:
+              name: myapp-rails-env

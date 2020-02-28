@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  namespace: sample
+  name: myapp-mysql
+  labels:
+    app: myapp
+    component: mysql
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 3306
+  selector:
+    app: myapp
+    component: mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: sample
+  name: myapp-mysql
+  labels:
+    app: myapp
+    component: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+      component: mysql
+  template:
+    metadata:
+      labels:
+        app: myapp
+        component: mysql
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: mysql
+        image: mysql:5.7.21
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+        volumeMounts:
+          - name: myapp-mysql-pv
+            mountPath: /var/lib/mysql
+        envFrom:
+          - configMapRef:
+              name: myapp-mysql-env
+          - secretRef:
+              name: myapp-mysql-env
+      volumes:
+      - name: myapp-mysql-pv
+        persistentVolumeClaim:
+          claimName: myapp-mysql-pvc

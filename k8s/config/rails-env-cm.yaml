@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: sample
+  name: myapp-rails-env
+data: 
+  RAILS_ENV: 'development'
+  MYSQL_HOST: 'myapp-mysql'
+  MYSQL_USER: 'root'
