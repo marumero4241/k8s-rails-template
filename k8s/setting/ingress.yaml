@@ -5,10 +5,9 @@ metadata:
   name: myapp-rails-ing
 spec:
   rules:
-  - host: sample-rails.com
-    http:
+  - http:
       paths:
-      - path: /
-        backend:
+      - backend:
           serviceName: myapp-rails 
-          servicePort: 3000
+          servicePort: 80
+

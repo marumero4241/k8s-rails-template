@@ -10,8 +10,8 @@ spec:
     spec:
       containers:
       - name: myapp-setup
-        image: myapp:0.0.1
-        imagePullPolicy: Never
+        image: kensei416/myapp:0.0.1
+        imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "bundle exec rake db:create && bundle exec rake db:migrate"]
         envFrom:
