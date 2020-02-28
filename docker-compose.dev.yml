@@ -1,0 +1,37 @@
+version: '3.3'
+services:
+  mysql:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-db:/var/lib/mysql
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "rm /myapp/tmp/pids/server.pid; bundle exec rails server -b '0.0.0.0'"
+    ports:
+      - "80:3000"
+    volumes:
+      - .:/myapp
+      - bundle:/usr/local/bundle
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_HOST: mysql
+      RAILS_ENV: development
+    depends_on:
+      - mysql
+    tty: true
+    stdin_open: true
+
+volumes: 
+  bundle:
+  mysql-db:
