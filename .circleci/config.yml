@@ -1,0 +1,75 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/repo
+    
+    # Primary container image where all commands run
+    
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+        environment:
+          RAILS_ENV: test
+          DB_HOST: 127.0.0.1
+          DB_USERNAME: 'root'
+          DB_PASSWORD: ''
+    
+    # Service container image available at `host: localhost`
+    
+      - image: circleci/mysql:5.7
+        
+    steps:
+      - checkout
+ 
+     # SSH鍵を設定
+      - add_ssh_keys:
+          fingerprints: "aaaaaaaaaaa"
+ 
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+ 
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+ 
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+ 
+      # テストデータベースの設定
+      - run: rm ./config/database.yml
+      - run: mv ./config/database.yml.ci ./config/database.yml
+      - run: bundle exec rake db:create RAILS_ENV=test
+      - run: bundle exec rake db:migrate RAILS_ENV=test
+ 
+      # テスト実行
+      - run:
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+ 
+            bundle exec rspec --format progress \
+                            --out /tmp/test-results/rspec.xml \
+                            $TEST_FILES
+ 
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+ 
+      # ssh-agent で鍵を登録
+      - run:
+          name: Add ssh-agent
+          command: |
+            ssh-agent -s > ~/.ssh_agent_conf
+            source ~/.ssh_agent_conf
+            for _k in $(ls ${HOME}/.ssh/id_*); do
+              ssh-add ${_k} || true
+            done
+ 
