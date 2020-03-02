@@ -15,12 +15,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash -c "rm /myapp/tmp/pids/server.pid; bundle exec rails server -b '0.0.0.0'"
-    ports:
-      - "80:3000"
+    command: bundle exec puma -C config/puma.rb
     volumes:
       - .:/myapp
       - bundle:/usr/local/bundle
+      - tmp-data:/myapp/tmp
+      - log-data:/myapp/log
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: password
@@ -31,7 +31,20 @@ services:
       - mysql
     tty: true
     stdin_open: true
+  web:
+    build:
+      context: containers/nginx
+    volumes:
+      - public-data:/myapp/public
+      - tmp-data:/myapp/tmp
+    ports:
+      - 80:80
+    depends_on:
+      - app
 
 volumes: 
   bundle:
   mysql-db:
+  public-data:
+  tmp-data:
+  log-data:
