@@ -1,5 +1,10 @@
 {
   "name": "app",
   "private": true,
-  "dependencies": {}
+  "dependencies": {},
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:marumero4241/k8s-rails-template.git",
+  "author": "My Name <kensei416@gmail.com>",
+  "license": "MIT"
 }
