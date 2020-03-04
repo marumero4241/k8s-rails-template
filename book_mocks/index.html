@@ -34,7 +34,7 @@
           >
             <v-col lg="2"></v-col>
             <v-col lg="8">
-              <v-card height="100vh">
+              <v-card height="90vh">
                 <v-list two-line>
                   <v-list-item-group
                     v-model="selected"
@@ -78,6 +78,19 @@
                     </template>
                   </v-list-item-group>
                 </v-list>
+                <v-divider></v-divider>
+                <v-bottom-navigation
+                  scroll-target="#scroll-area-1"
+                  hide-on-scroll
+                  absolute
+                  horizontal
+                  >
+                  <v-pagination
+                    v-model="page"
+                    :length="15"
+                    :total-visible="7"
+                  ></v-pagination>
+                </v-bottom-navigation>
               </v-card>
             </v-col>
             <v-col lg="2"></v-col>
