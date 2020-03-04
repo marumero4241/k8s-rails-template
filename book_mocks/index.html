@@ -9,13 +9,6 @@
 <body>
   <div id="app">
     <v-app>
-      <v-navigation-drawer 
-        app
-        clipped
-      >
-        <!-- -->
-      </v-navigation-drawer>
-    
       <v-app-bar 
         app 
         color="orange accent-2"
@@ -31,53 +24,64 @@
       </v-app-bar>
     
       <!-- Sizes your content based upon application components -->
-      <v-content>
+      <v-content class="grey lighten-5">
     
         <!-- Provides the application the proper gutter -->
-        <v-container fluid>
-          <v-list two-line>
-            <v-list-item-group
-              v-model="selected"
-              multiple
-              active-class="pink--text"
-            >
-              <template v-for="(item, index) in books">
-                <v-list-item :key="item.title">
-                  <template v-slot:default="{ active, toggle }">
-                    <v-list-item-avatar>
-                      <v-img :src="item.image"></v-img>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      <v-list-item-title v-text="item.title"></v-list-item-title>
-                      <v-list-item-subtitle v-text="item.author"></v-list-item-subtitle>
-                    </v-list-item-content>
-      
-                    <v-list-item-action>
-                      <v-icon
-                        v-if="!active"
-                        color="grey lighten-1"
-                      >
-                        star_border
-                      </v-icon>
-      
-                      <v-icon
-                        v-else
-                        color="yellow"
-                      >
-                        star
-                      </v-icon>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-      
-                <v-divider
-                  v-if="index + 1 < items.length"
-                  :inset="true"
-                  :key="index"
-                ></v-divider>
-              </template>
-            </v-list-item-group>
-          </v-list>
+        <v-container fluid  class="py-0">
+          <v-row
+            justify="center"
+            no-gutters
+          >
+            <v-col lg="2"></v-col>
+            <v-col lg="8">
+              <v-card height="100vh">
+                <v-list two-line>
+                  <v-list-item-group
+                    v-model="selected"
+                    multiple
+                    active-class="pink--text"
+                  >
+                    <template v-for="(item, index) in books">
+                      <v-list-item :key="item.title">
+                        <template v-slot:default="{ active, toggle }">
+                          <v-list-item-avatar tile>
+                            <v-img :src="item.image"></v-img>
+                          </v-list-item-avatar>
+                          <v-list-item-content>
+                            <v-list-item-title v-text="item.title"></v-list-item-title>
+                            <v-list-item-subtitle v-text="item.author"></v-list-item-subtitle>
+                          </v-list-item-content>
+            
+                          <v-list-item-action>
+                            <v-icon
+                              v-if="!active"
+                              color="grey lighten-1"
+                            >
+                              star_border
+                            </v-icon>
+            
+                            <v-icon
+                              v-else
+                              color="yellow"
+                            >
+                              star
+                            </v-icon>
+                          </v-list-item-action>
+                        </template>
+                      </v-list-item>
+            
+                      <v-divider
+                        v-if="index + 1 < items.length"
+                        :inset="true"
+                        :key="index"
+                      ></v-divider>
+                    </template>
+                  </v-list-item-group>
+                </v-list>
+              </v-card>
+            </v-col>
+            <v-col lg="2"></v-col>
+          </v-row>
         </v-container>
       </v-content>
     
@@ -108,7 +112,7 @@
             title: "動物農場〔新訳版〕",
             author: "ジョージ・オーウェル／著 山形浩生／翻訳",
             image: "https://cover.openbd.jp/9784151200878.jpg"
-          }
+          },
         ],
         selected: [2],
       items: [
