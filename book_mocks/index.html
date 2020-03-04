@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div id="app">
+    <v-app>
+      <v-navigation-drawer 
+        app
+        clipped
+      >
+        <!-- -->
+      </v-navigation-drawer>
+    
+      <v-app-bar 
+        app 
+        color="orange accent-2"
+        dark
+        clipped-left
+      >
+        <v-btn class="ma-2" icon dark v-if="$vuetify.breakpoint.xs">
+          <v-icon dark left>mdi-arrow-left</v-icon>
+        </v-btn>
+
+        <v-toolbar-title>Collapsing Bar</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-app-bar>
+    
+      <!-- Sizes your content based upon application components -->
+      <v-content>
+    
+        <!-- Provides the application the proper gutter -->
+        <v-container fluid>
+          <v-list two-line>
+            <v-list-item-group
+              v-model="selected"
+              multiple
+              active-class="pink--text"
+            >
+              <template v-for="(item, index) in books">
+                <v-list-item :key="item.title">
+                  <template v-slot:default="{ active, toggle }">
+                    <v-list-item-avatar>
+                      <v-img :src="item.image"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      <v-list-item-title v-text="item.title"></v-list-item-title>
+                      <v-list-item-subtitle v-text="item.author"></v-list-item-subtitle>
+                    </v-list-item-content>
+      
+                    <v-list-item-action>
+                      <v-icon
+                        v-if="!active"
+                        color="grey lighten-1"
+                      >
+                        star_border
+                      </v-icon>
+      
+                      <v-icon
+                        v-else
+                        color="yellow"
+                      >
+                        star
+                      </v-icon>
+                    </v-list-item-action>
+                  </template>
+                </v-list-item>
+      
+                <v-divider
+                  v-if="index + 1 < items.length"
+                  :inset="true"
+                  :key="index"
+                ></v-divider>
+              </template>
+            </v-list-item-group>
+          </v-list>
+        </v-container>
+      </v-content>
+    
+      <v-footer app>
+      </v-footer>
+    </v-app>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: {
+        books: [
+          {
+            title: "一九八四年",
+            author: "Orwell,George／著 高橋和久／翻訳 オーウェルジョージ／著",
+            image: "https://cover.openbd.jp/9784151200533.jpg"
+          },
+          {
+            title: "おにぎりレシピ101",
+            author: "山田玲子／著 水野菜生／英訳",
+            image: "https://cover.openbd.jp/9784780802047.jpg"
+          },
+          {
+            title: "動物農場〔新訳版〕",
+            author: "ジョージ・オーウェル／著 山形浩生／翻訳",
+            image: "https://cover.openbd.jp/9784151200878.jpg"
+          }
+        ],
+        selected: [2],
+      items: [
+        {
+          action: '15 min',
+          headline: 'Brunch this weekend?',
+          title: 'Ali Connors',
+          subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
+        },
+        {
+          action: '2 hr',
+          headline: 'Summer BBQ',
+          title: 'me, Scrott, Jennifer',
+          subtitle: "Wish I could come, but I'm out of town this weekend.",
+        },
+        {
+          action: '6 hr',
+          headline: 'Oui oui',
+          title: 'Sandra Adams',
+          subtitle: 'Do you have Paris recommendations? Have you ever been?',
+        },
+        {
+          action: '12 hr',
+          headline: 'Birthday gift',
+          title: 'Trevor Hansen',
+          subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
+        },
+        {
+          action: '18hr',
+          headline: 'Recipe to try',
+          title: 'Britta Holt',
+          subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
+        },
+      ],
+      }
+    })
+  </script>
+</body>
+</html>
