@@ -1,6 +1,6 @@
 /.dockerignore
 /.git
-/Dockerfile
+/docker
 /log
 /node_modules
 /public/packs

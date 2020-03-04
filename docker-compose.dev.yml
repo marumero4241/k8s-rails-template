@@ -14,7 +14,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
     command: bundle exec puma -C config/puma.rb
     volumes:
       - .:/myapp
@@ -33,7 +33,7 @@ services:
     stdin_open: true
   web:
     build:
-      context: containers/nginx
+      context: docker/containers/nginx
     volumes:
       - public-data:/myapp/public
       - tmp-data:/myapp/tmp

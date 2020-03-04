@@ -1,4 +1,4 @@
-### image for build
+ ### image for build
 FROM ruby:2.5.1-alpine 
 USER root
 ENV LANG C.UTF-8
