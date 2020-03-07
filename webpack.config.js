@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const { VuetifyProgressiveModule } = require('vuetify-loader')
 const ManifestPlugin = require('webpack-manifest-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 const publicPath = isProd ? '/assets' : 'http://example.com:3035/public/assets' 
