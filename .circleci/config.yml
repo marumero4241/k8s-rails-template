@@ -6,12 +6,13 @@ jobs:
     # Primary container image where all commands run
     
     docker:
-      - image: circleci/ruby:2.5.1-node-browsers
+      - image: circleci/ruby:2.7.0-node-browsers
         environment:
           RAILS_ENV: test
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: 'root'
           MYSQL_PASSWORD: ''
+          BUNDLER_VERSION: 2.0.1
     
     # Service container image available at `host: localhost`
     
@@ -29,6 +30,14 @@ jobs:
           - v1-dependencies-{{ checksum "Gemfile.lock" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+
+      - run:
+          name: setup bundler
+          command: |
+            sudo gem update --system
+            sudo gem update --system
+            sudo gem uninstall -ax bundler
+            sudo gem install bundle
  
       - run:
           name: install dependencies

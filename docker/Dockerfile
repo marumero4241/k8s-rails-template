@@ -16,6 +16,7 @@ RUN apk update \
 
 # install rubygem
 COPY Gemfile Gemfile.lock $ROOT_PATH/
+RUN gem update bundler
 RUN bundle install -j4
 
 # install npm
