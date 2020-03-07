@@ -9,32 +9,106 @@
 <body>
   <div id="app">
     <v-app>
+      <v-navigation-drawer
+        v-model="drawer"
+        app
+        clipped
+      >
+        <v-list dense>
+          <v-list-item
+            v-for="item in items"
+            :key="item.text"
+            link
+          >
+            <v-list-item-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
+                {{ item.text }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-subheader class="mt-4 grey--text text--darken-1">SUBSCRIPTIONS</v-subheader>
+          <v-list>
+            <v-list-item
+              v-for="item in items2"
+              :key="item.text"
+              link
+            >
+              <v-list-item-avatar>
+                <img
+                  :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`"
+                  alt=""
+                >
+              </v-list-item-avatar>
+              <v-list-item-title v-text="item.text" />
+            </v-list-item>
+          </v-list>
+          <v-list-item
+            class="mt-4"
+            link
+          >
+            <v-list-item-action>
+              <v-icon color="grey darken-1">mdi-plus-circle-outline</v-icon>
+            </v-list-item-action>
+            <v-list-item-title class="grey--text text--darken-1">Browse Channels</v-list-item-title>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-action>
+              <v-icon color="grey darken-1">mdi-settings</v-icon>
+            </v-list-item-action>
+            <v-list-item-title class="grey--text text--darken-1">Manage Subscriptions</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
       <v-app-bar 
         app 
+        clipped-left
         color="orange accent-2"
         dark
-        clipped-left
+        absolute
       >
         <v-btn class="ma-2" icon dark v-if="$vuetify.breakpoint.xs">
           <v-icon dark left>mdi-arrow-left</v-icon>
         </v-btn>
-
-        <v-toolbar-title>Collapsing Bar</v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-row no-gutters>
+          <v-col cols='2'></v-col>
+          <v-col cols='2'>
+           <v-btn icon>
+             <v-icon>mdi-book-outline</v-icon>
+           </v-btn>
+          </v-col>
+          <v-col cols='5'>
+           
+          </v-col>
+          <v-col cols='3'>
+            <v-btn icon>
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon>mdi-bell</v-icon>
+            </v-btn>
+            <v-btn icon>
+              <v-icon>mdi-settings-outline</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-app-bar>
     
       <!-- Sizes your content based upon application components -->
       <v-content class="grey lighten-5">
     
         <!-- Provides the application the proper gutter -->
-        <v-container fluid  class="py-0">
+        <v-container fluid  class="py-0" height="100%">
           <v-row
             justify="center"
+            align="center"
             no-gutters
+            height="100%"
           >
-            <v-col lg="2"></v-col>
-            <v-col lg="8">
-              <v-card height="90vh">
+            <v-card flat height="100%">
+              <v-card-text>
                 <v-list two-line>
                   <v-list-item-group
                     v-model="selected"
@@ -78,22 +152,9 @@
                     </template>
                   </v-list-item-group>
                 </v-list>
-                <v-divider></v-divider>
-                <v-bottom-navigation
-                  scroll-target="#scroll-area-1"
-                  hide-on-scroll
-                  absolute
-                  horizontal
-                  >
-                  <v-pagination
-                    v-model="page"
-                    :length="15"
-                    :total-visible="7"
-                  ></v-pagination>
-                </v-bottom-navigation>
-              </v-card>
-            </v-col>
-            <v-col lg="2"></v-col>
+              </v-card-text>
+              
+            </v-card>
           </v-row>
         </v-container>
       </v-content>
@@ -110,6 +171,7 @@
       el: '#app',
       vuetify: new Vuetify(),
       data: {
+        page: 1, 
         books: [
           {
             title: "一九八四年",
@@ -126,41 +188,28 @@
             author: "ジョージ・オーウェル／著 山形浩生／翻訳",
             image: "https://cover.openbd.jp/9784151200878.jpg"
           },
+          
         ],
         selected: [2],
+        drawer: null,
       items: [
-        {
-          action: '15 min',
-          headline: 'Brunch this weekend?',
-          title: 'Ali Connors',
-          subtitle: "I'll be in your neighborhood doing errands this weekend. Do you want to hang out?",
-        },
-        {
-          action: '2 hr',
-          headline: 'Summer BBQ',
-          title: 'me, Scrott, Jennifer',
-          subtitle: "Wish I could come, but I'm out of town this weekend.",
-        },
-        {
-          action: '6 hr',
-          headline: 'Oui oui',
-          title: 'Sandra Adams',
-          subtitle: 'Do you have Paris recommendations? Have you ever been?',
-        },
-        {
-          action: '12 hr',
-          headline: 'Birthday gift',
-          title: 'Trevor Hansen',
-          subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
-        },
-        {
-          action: '18hr',
-          headline: 'Recipe to try',
-          title: 'Britta Holt',
-          subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-        },
+        { icon: 'trending_up', text: 'Most Popular' },
+        { icon: 'subscriptions', text: 'Subscriptions' },
+        { icon: 'history', text: 'History' },
+        { icon: 'featured_play_list', text: 'Playlists' },
+        { icon: 'watch_later', text: 'Watch Later' },
       ],
-      }
+      items2: [
+        { picture: 28, text: 'Joseph' },
+        { picture: 38, text: 'Apple' },
+        { picture: 48, text: 'Xbox Ahoy' },
+        { picture: 58, text: 'Nokia' },
+        { picture: 78, text: 'MKBHD' },
+      ],
+      },
+      created () {
+        this.$vuetify.theme.dark = true
+      },
     })
   </script>
 </body>
