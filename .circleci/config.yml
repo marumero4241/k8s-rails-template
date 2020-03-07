@@ -35,7 +35,6 @@ jobs:
           name: setup bundler
           command: |
             sudo gem update --system
-            sudo gem update --system
             sudo gem uninstall -ax bundler
             sudo gem install bundle
  
